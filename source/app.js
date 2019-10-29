@@ -10,7 +10,11 @@ const router = express.Router();
 //Conection with database
 mongoose.connect('mongodb+srv://lies:lies@cluster0-my2zo.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
 
-//Carregar rotas
+//Loading models
+const Product = require('./models/product');
+
+
+//Loading routes
 const indexRoute = require('./routes/index');
 const productRoute = require('./routes/product');
 
