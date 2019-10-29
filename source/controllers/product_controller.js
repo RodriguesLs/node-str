@@ -19,6 +19,14 @@ exports.getBySlug = (req, res, next) => {
   });
 }
 
+exports.getByTag = (req, res, next) => {
+  Product.find({ tags: req.params.tag, active: true }, 'title description price slug tags').then(data => {
+    res.status(200).send(data);
+  }).catch(e => {
+    res.status(400).send(e);
+  });
+}
+
 exports.post = (req, res, next) => {
   let product = new Product(req.body);
   product.save().then(x =>{
@@ -29,11 +37,17 @@ exports.post = (req, res, next) => {
 };
 
 exports.put = (req, res, next) => {
-  const id = req.params.id;
-  res.status(200).send({
-    id: id,
-    item: req.body,
-    message: 'Updated success!'
+  Product.findByIdAndUpdate(req.params.id, {
+    $set: {
+      title: req.body.title,
+      description: req.body.description,
+      slug: req.body.slug,
+      price: req.body.price
+    }
+  }).then(data => {
+    res.status(200).send('Product success update!');
+  }).catch(e => {
+    res.status(400).send(e);
   });
 };
 
