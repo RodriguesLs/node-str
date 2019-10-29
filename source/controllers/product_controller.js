@@ -47,11 +47,28 @@ exports.put = (req, res, next) => {
   }).then(data => {
     res.status(200).send('Product success update!');
   }).catch(e => {
-    res.status(400).send(e);
+    res.status(400).send({
+      message: 'Update failed',
+      error: e
+    });
   });
 };
 
+
+//best practice -> id in body and not in uri
 exports.delete = (req, res, next) => {
-  const id = req.params.id;
-  res.status(204).send('Deleted success!');
+  Product.findOneAndRemove(req.body.id, {
+
+  }).then(data => {
+    res.status(204).send('Product success remove.');
+  }).catch(e => {
+    res.status(400).send({
+      message: 'Product not remove',
+      error: e
+    });
+  });
+  
+
+  // const id = req.params.id;
+  // res.status(204).send('Deleted success!');
 };
